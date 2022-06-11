@@ -14,7 +14,7 @@ docker cp ./bundles_temp/. burger-star-backend:/home/burger/web/staticfiles/
 rm -rf ./bundles_temp
 
 echo '----- 4. Registering deploy on Rollbar...'
-ROLLBAR_TOKEN=$(cat .env | grep ROLLBAR_TOKEN | cut -d=   -f2)
+ROLLBAR_TOKEN=$(cat .env.prod | grep ROLLBAR_TOKEN | cut -d=   -f2)
 REVISION=$(git rev-parse --short HEAD)
 
 curl -s \

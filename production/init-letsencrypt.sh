@@ -1,8 +1,8 @@
 #!/bin/bash
 
-read -p "Enter your domain address" domain
-read -p "Enter your email address" email
-read -p "Staging: 1 - Yes, 0 - No" staging
+read -p "Enter your domain address: " domain
+read -p "Enter your email address: " email
+read -p "Staging: 1 - Yes, 0 - No : " staging
 
 rsa_key_size=4096
 data_path="./data/certbot"
@@ -44,6 +44,7 @@ echo
 echo "### Starting nginx ..."
 docker-compose -f docker-compose.prod.yaml up --force-recreate -d nginx
 echo
+
 
 echo "### Removing dummy certificate for $domain ..."
 docker-compose -f docker-compose.prod.yaml run --rm --entrypoint "\
