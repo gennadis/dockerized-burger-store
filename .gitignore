@@ -11,3 +11,4 @@ staticfiles/
 .parcel-cache
 
 data/certbot/
+data/nginx/conf.d/nginx.conf
