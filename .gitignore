@@ -9,3 +9,5 @@ bundles/**
 node_modules/
 staticfiles/
 .parcel-cache
+
+data/certbot/
