@@ -1,28 +1,19 @@
 #!/bin/bash
 set -e
 
-echo '1. Pulling code updates from GitHub...'
+echo '----- 1. Pulling code updates from GitHub...'
 git pull
 
-echo '2. Installing project requirements...'
-source venv/bin/activate
-pip install -r requirements.txt
-npm ci --include=dev
+echo '----- 2. Starting containers...'
+docker compose -f docker-compose.prod.yaml down
+docker compose -f docker-compose.prod.yaml up -d --build
 
-echo '3. Building frontend...'
-./node_modules/.bin/parcel build bundles-src/index.js --dist-dir bundles --public-url="./"
+echo '----- 3. Fetching frontend staticfiles...'
+docker cp burger-star-frontend:/home/burger/web/bundles ./bundles_temp
+docker cp ./bundles_temp/. burger-star-backend:/home/burger/web/staticfiles/
+rm -rf ./bundles_temp
 
-echo '4. Collecting static files...'
-python manage.py collectstatic --noinput
-
-echo '5. Applying migrations...'
-python manage.py migrate --noinput
-
-echo '6. Reloading systemd daemons...'
-sudo systemctl reload nginx
-sudo systemctl restart burger-store.service
-
-echo '7. Registering deploy on Rollbar...'
+echo '----- 4. Registering deploy on Rollbar...'
 ROLLBAR_TOKEN=$(cat .env | grep ROLLBAR_TOKEN | cut -d=   -f2)
 REVISION=$(git rev-parse --short HEAD)
 
@@ -33,4 +24,4 @@ curl -s \
      -d '{"environment": "production", "revision": "'"$REVISION"'", "rollbar_username": "'"$(whoami)"'", "status": "succeeded"}' \
 > /dev/null
 
-echo '8. Deploy completed!'
+echo '----- 5. Deploy completed!'
