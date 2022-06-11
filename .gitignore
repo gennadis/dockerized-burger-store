@@ -10,5 +10,5 @@ node_modules/
 staticfiles/
 .parcel-cache
 
-data/certbot/
-data/nginx/conf.d/nginx.conf
+production/data/certbot/
+production/data/nginx/conf.d/nginx.conf
