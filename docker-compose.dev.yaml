@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: burger-star-backend
+    build: ./backend
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    volumes:
+      - bundles_volume:/home/burger/web/bundles
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db
+
+  frontend:
+    container_name: burger-star-frontend
+    build: ./frontend
+    command: ./node_modules/.bin/parcel watch bundles-src/index.js --dist-dir bundles --public-url="./"
+    volumes:
+      - bundles_volume:/home/burger/web/bundles
+
+  db:
+    container_name: burger-star-postgres
+    image: postgres:14.0-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.dev
+
+volumes:
+  postgres_volume:
+  bundles_volume:
