@@ -10,6 +10,7 @@ services:
       - 8000:8000
     volumes:
       - bundles_volume:/home/burger/web/bundles
+      - ./backend:/home/burger/web
     env_file:
       - ./.env.dev
     depends_on:
