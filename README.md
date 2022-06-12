@@ -14,7 +14,12 @@
 
 ## Деплой `dev` версии
 
-0. Создайте и заполните `.env.prod` файл по образцу
+1. Клонируйте репозиторий
+```sh
+git clone https://github.com/gennadis/dockerized-burger-store.git
+```
+
+2. Создайте и заполните `.env.dev` файл по образцу
 ```sh
 mv .env.dev.example .env.dev
 ```
@@ -35,23 +40,23 @@ POSTGRES_HOST=db
 POSTGRES_PORT=5432
 ```
 
-1. Используя `docker compose`, соберите и запустите образы `django`, `parcel` и `postgres`
+3. Используя `docker compose`, соберите и запустите образы `django`, `parcel` и `postgres`
 ```sh
 docker compose -f docker-compose.dev.yaml up -d --build
 ```
-2. Накатите миграции
+4. Накатите миграции
 ```sh
 docker compose -f docker-compose.dev.yaml exec backend python manage.py migrate
 ```
-3. Загрузите тестовые данные (опционально)
+5. Загрузите тестовые данные (опционально)
 ```sh
 docker compose -f docker-compose.dev.yaml exec backend python manage.py loaddata data.json
 ```
-4. Создайте учетную запись суперпользователя
+6. Создайте учетную запись суперпользователя
 ```sh
 docker compose -f docker-compose.dev.yaml exec backend python manage.py createsuperuser
 ```
-5. Для работы с сервисом используйте следующие ссылки:
+7. Для работы с сервисом используйте следующие ссылки:
 - [главная](http://127.0.0.1:8000)
 - [панель менеджера](http://127.0.0.1:8000/manager) 
 - [панель администратора](http://127.0.0.1:8000/admin)
