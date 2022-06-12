@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # add `pillow` and `psycopg2` dependencies
-RUN apk update && apk add \
+RUN apk --no-cache add \
     gcc \
     musl-dev \
     jpeg-dev \
@@ -30,7 +30,7 @@ RUN mkdir $APP_HOME/staticfiles
 RUN mkdir $APP_HOME/mediafiles
 WORKDIR $APP_HOME
 
-RUN apk update && apk add libpq libjpeg
+RUN apk --no-cache add libpq libjpeg
 COPY --from=build /usr/src/app/wheels /wheels
 COPY --from=build /usr/src/app/requirements.txt .
 RUN pip install --no-cache /wheels/*
