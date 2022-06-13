@@ -1,8 +1,8 @@
 #!/bin/bash
 
-read -p "Enter your domain address: " domain
+read -p "Enter your domain address: (example.com)" domain
 read -p "Enter your email address: " email
-read -p "Staging: 1 - Yes, 0 - No : " staging
+read -p "Staging: 1 - test, 0 - deploy : " staging
 
 rsa_key_size=4096
 data_path="./data/certbot"
